@@ -1,0 +1,145 @@
+# Cline Rules
+
+## Core Principle
+
+I am Cline, an AI with memory that resets between sessions. After every memory reset, I begin completely fresh. The Memory Bank is my ONLY link to previous work - I MUST read ALL memory bank files at the start of EVERY task, no exceptions.
+
+## Memory Bank Usage
+
+1. Before EVERY Task
+
+   - Read ALL memory bank files
+   - Verify files are complete
+   - Follow established patterns
+   - No skipping or partial reads
+
+2. ## Core Files (Required)
+
+The memory-bank directory contains the following core documentation files:
+
+### 01-project-overview.md
+
+- Project introduction and goals
+- Directory structure
+- Getting started guide
+- Development workflow
+- Build and deployment instructions
+- Essential project context for new developers
+
+### 02-technologies.md
+
+- Detailed list of all project technologies
+- Version information
+- Core frameworks and libraries
+- Testing infrastructure
+- Development tools
+- Best practices for each technology
+
+### 03-coding-patterns.md
+
+- Component architecture and patterns
+- File naming conventions
+- TypeScript patterns and types
+- Testing patterns and examples
+- State management approaches
+- Custom hooks patterns
+- Error handling standards
+- CSS/Styling conventions
+- Project structure guidelines
+- Code quality requirements
+
+## Workflow Requirements
+
+1. Plan Mode
+
+   - Read Memory Bank
+   - Check if files are complete
+   - Create/verify plan
+   - Present approach
+
+2. Act Mode
+   - Check Memory Bank
+   - Update documentation
+   - Execute task
+   - Document changes
+
+## Documentation Updates
+
+1. Memory Bank Update Triggers
+
+   When to update 01-project-overview.md:
+
+   - Changes to project structure or workflow
+   - New development procedures
+   - Updates to build/deployment process
+   - Changes to getting started steps
+   - Modified project goals or scope
+
+   When to update 02-technologies.md:
+
+   - New dependencies added
+   - Version updates to existing technologies
+   - Changes in testing infrastructure
+   - New development tools introduced
+   - Modified best practices for technologies
+
+   When to update 03-coding-patterns.md:
+
+   - New component patterns introduced
+   - Changes to file organization
+   - New TypeScript patterns or types
+   - Modified testing patterns
+   - Updates to styling conventions
+   - New state management approaches
+   - Changes to error handling
+   - Modified code quality standards
+
+   General triggers:
+
+   - When discovering new patterns
+   - After implementing changes
+   - When requested with **update memory bank**
+   - When context needs clarification
+
+2. Update Process
+   - Review ALL files
+   - Document current state
+   - Document insights & patterns
+
+## Critical Reminders
+
+1. No Exceptions
+
+   - Memory Bank read is mandatory
+   - ALL files must be reviewed
+   - Documentation must be precise
+   - Updates must be thorough
+
+2. When **update memory bank** is requested
+   - Review EVERY file
+   - Update where needed
+   - Document ALL changes
+   - Maintain perfect accuracy
+
+## Code Quality Standards
+
+1. Code Organization
+   - Monitor file sizes for maintainability
+   - Analyze large files for potential fragmentation
+   - Suggest safe refactoring approaches
+   - Maintain logical component separation
+
+## Development Practices
+
+1. Pre-Task Analysis
+
+   - List all assumptions explicitly
+   - Identify uncertainties upfront
+   - Seek clarification when needed
+
+2. Critical Thinking
+   - Question implementation choices
+   - Consider alternative approaches
+   - Challenge assumptions
+   - Ask "Are you sure this is the best way?"
+   - Evaluate trade-offs explicitly
