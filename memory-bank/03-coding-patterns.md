@@ -1,5 +1,55 @@
 # Coding Patterns and Practices
 
+## Design System
+
+### Colors
+
+The application uses a dark theme with the following color palette:
+
+- Background: Dark blue-gray (HSL 222 47% 11%)
+- Foreground: Light gray (HSL 213 31% 91%)
+- Primary: Almost white (HSL 210 40% 98%)
+- Secondary: Darker blue-gray (HSL 217 32% 17%)
+- Accent: Mid blue-gray (HSL 215 25% 27%)
+- Muted: Dark blue-gray with reduced opacity
+
+### Typography
+
+#### Font Families
+
+- Primary: Geist Sans (`font-sans`) - Modern, clean sans-serif for general content
+- Monospace: Geist Mono (`font-mono`) - Technical content and code blocks
+
+#### Type Scale
+
+- 2xs: 0.75rem (12px)
+- xs: 0.8125rem (13px)
+- sm: 0.875rem (14px)
+- base: 1rem (16px)
+- lg: 1.125rem (18px)
+- xl: 1.25rem (20px)
+- 2xl: 1.5rem (24px)
+- 3xl: 1.875rem (30px)
+- 4xl: 2.25rem (36px)
+- 5xl: 3rem (48px)
+
+#### Text Styles
+
+```typescript
+// Heading styles
+h1: text-4xl font-bold tracking-tight
+h2: text-3xl font-semibold tracking-tight
+h3: text-2xl font-semibold tracking-tight
+h4: text-xl font-semibold tracking-tight
+
+// Paragraph styles
+p: text-base leading-7
+.lead: text-xl text-muted-foreground
+.large: text-lg font-semibold
+.small: text-sm font-medium leading-none
+code: relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm
+```
+
 ## Component Architecture
 
 ### Component Organization
@@ -175,11 +225,11 @@ async function fetchData() {
     // Typography
     'text-lg font-medium',
     // Colors
-    'bg-white dark:bg-gray-800',
+    'bg-background text-foreground',
     // Responsive
     'md:flex-row lg:gap-6',
     // States
-    'hover:bg-gray-50 dark:hover:bg-gray-700',
+    'hover:bg-secondary',
     // Custom classes
     className
   )}
@@ -188,11 +238,13 @@ async function fetchData() {
 
 ### CSS Variables
 
+All colors are defined using HSL values for better control over lightness and opacity:
+
 ```css
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  /* Add other design tokens */
+  --background: 222 47% 11%;
+  --foreground: 213 31% 91%;
+  /* ... other color tokens */
 }
 ```
 

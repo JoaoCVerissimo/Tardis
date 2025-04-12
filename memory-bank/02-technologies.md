@@ -2,6 +2,12 @@
 
 ## Core Technologies
 
+### Node.js
+
+- Version: 23.11.0 (enforced via .nvmrc)
+- Required runtime environment
+- Version managed via nvm (Node Version Manager)
+
 ### Next.js
 
 - Version: 15+
