@@ -1,6 +1,9 @@
+import Navbar from '@/components/ui/Navbar'
+
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <Navbar />
       <main className="max-w-4xl mx-auto space-y-8 p-8">
         <section className="space-y-4">
           <h1>Typography System</h1>
