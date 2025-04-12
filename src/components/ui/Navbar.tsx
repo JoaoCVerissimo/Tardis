@@ -18,17 +18,17 @@ function Navbar({ className }: NavbarProps) {
   return (
     <nav
       className={cn(
-        'w-full h-16 flex items-center justify-between px-6',
+        'flex h-16 w-full items-center justify-between px-6',
         'bg-background text-foreground',
-        'border-b border-accent/20',
-        className,
+        'border-accent/20 border-b',
+        className
       )}
     >
       <Link
         href="/"
         className={cn(
           'text-lg font-semibold',
-          'hover:text-primary transition-colors',
+          'hover:text-primary transition-colors'
         )}
       >
         Tardis

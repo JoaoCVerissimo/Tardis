@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main className="max-w-4xl mx-auto space-y-8 p-8">
+      <main className="mx-auto max-w-4xl space-y-8 p-8">
         <section className="space-y-4">
           <h1>Typography System</h1>
           <p className="text-lg">
@@ -25,7 +25,7 @@ export default function Home() {
               Large text variant for emphasis without using a heading.
             </p>
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Small text variant for auxiliary information.
             </p>
 
@@ -37,17 +37,17 @@ export default function Home() {
 
         <section className="space-y-4">
           <h2>Color System</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-primary text-primary-foreground rounded">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="bg-primary text-primary-foreground rounded p-4">
               Primary Color
             </div>
-            <div className="p-4 bg-secondary text-secondary-foreground rounded">
+            <div className="bg-secondary text-secondary-foreground rounded p-4">
               Secondary Color
             </div>
-            <div className="p-4 bg-accent text-accent-foreground rounded">
+            <div className="bg-accent text-accent-foreground rounded p-4">
               Accent Color
             </div>
-            <div className="p-4 bg-muted text-muted-foreground rounded">
+            <div className="bg-muted text-muted-foreground rounded p-4">
               Muted Color
             </div>
           </div>

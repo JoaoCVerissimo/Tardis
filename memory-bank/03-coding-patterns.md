@@ -13,6 +13,13 @@ The application uses a dark theme with the following color palette:
 - Accent: Mid blue-gray (HSL 215 25% 27%)
 - Muted: Dark blue-gray with reduced opacity
 
+VS Code's theme is customized to match this color palette through `.vscode/settings.json`. The editor uses:
+
+- Dark blue-gray (#151923) for backgrounds
+- Light gray (#E1E7F0) for most text
+- Almost white (#F8FAFC) for active/highlighted elements
+- Darker blue-gray (#2A3545) for badges and accents
+
 ### Typography
 
 #### Font Families
@@ -92,6 +99,45 @@ function Button({ children, variant = 'default', className }: ButtonProps) {
 
 export default Button
 ```
+
+## Code Formatting
+
+### Prettier Configuration
+
+The project uses Prettier for consistent code formatting with the following configuration:
+
+```json
+{
+  "semi": false,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "tailwindFunctions": ["clsx"],
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+```
+
+VS Code is configured to automatically format files on save. This is managed through `.vscode/settings.json`:
+
+```json
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}
+```
+
+You can also manually format files using:
+
+- `yarn format` - Format all files
+- `yarn format:check` - Check files for formatting issues
+
+### ESLint Integration
+
+ESLint is configured to work with Prettier through `eslint-config-prettier` and `eslint-plugin-prettier`.
 
 ## File Naming Conventions
 
