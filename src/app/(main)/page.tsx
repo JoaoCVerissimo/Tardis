@@ -1,3 +1,7 @@
+'use client'
+
+import { WeatherWidget } from '@/components/ui/weather-widget'
+
 export default function Home() {
   return (
     <div className="space-y-12">
@@ -9,8 +13,11 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <h2>Features</h2>
+        <div className="w-full max-w-lg">
+          <WeatherWidget />
+        </div>
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <h3>Modern Stack</h3>
