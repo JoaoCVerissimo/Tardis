@@ -44,6 +44,19 @@
 - Dark mode support
 - Tailwind CSS based styling
 
+## Data Fetching & State Management
+
+### TanStack Query (React Query)
+
+- Version: 5+
+- Powerful async data management
+- Server state synchronization
+- Built-in caching and revalidation
+- Request deduplication
+- Automatic background updates
+- Error handling and retries
+- Configured with 5-minute stale time by default
+
 ## Testing
 
 ### Jest

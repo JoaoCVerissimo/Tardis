@@ -21,9 +21,10 @@ tardis/
 │   │   ├── (main)/       # Main route group with shared navbar layout
 │   │   │   ├── layout.tsx # Main layout with navbar for nested routes
 │   │   │   └── page.tsx  # Homepage
+│   │   ├── _providers/    # App-level providers and configurations
 │   │   └── layout.tsx    # Root layout with fonts and global styles
-│   ├── components/        # Reusable React components
-│   │   └── ui/           # UI components (buttons, inputs, etc.)
+│   ├── components/        # Reusable UI components
+│   │   └── ui/           # Shadcn UI components
 │   └── lib/              # Utility functions and shared code
 ├── public/               # Static files
 ├── memory-bank/          # Project documentation
