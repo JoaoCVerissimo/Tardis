@@ -47,6 +47,12 @@ function Navbar({ className }: NavbarProps) {
           >
             Design System
           </Link>
+          <Link
+            href="/about"
+            className="hover:bg-accent flex w-full items-center p-2"
+          >
+            About
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
     </nav>
