@@ -46,9 +46,14 @@ The application consists of the following pages:
 1. **Homepage** (`/`)
 
    - Entry point of the application
-   - Clean, minimal design
-   - Introduces visitors to the project
-   - Uses default typography styles from globals.css
+   - Comprehensive project introduction
+   - Feature grid highlighting key aspects:
+     - Modern tech stack
+     - Design system
+     - API integration
+     - Best practices
+   - Get started section for navigation
+   - Responsive grid layout
 
 2. **About** (`/about`)
 
