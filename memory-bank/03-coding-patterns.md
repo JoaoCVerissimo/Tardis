@@ -210,6 +210,11 @@ describe('Button', () => {
 })
 ```
 
+### Running Tests
+
+- `yarn test` - Run tests once
+- `yarn test:watch` - Run tests in watch mode
+
 ### Testing Best Practices
 
 1. Test user interactions over implementation
@@ -217,6 +222,54 @@ describe('Button', () => {
 3. Group related tests using describe blocks
 4. Mock external dependencies
 5. Test error states and edge cases
+
+### Test File Organization
+
+Tests are organized in a dedicated test directory structure:
+
+```
+src/
+└── tests/          # Test files directory
+    ├── pages/      # Page tests
+    ├── components/ # Component tests
+    └── utils/      # Utility function tests
+```
+
+Best practices:
+
+- Use `.test.tsx` extension for test files
+- Import test utilities from `@/test-utils`
+- Mock API hooks in appropriate tests
+- Follow same directory structure as source code
+- Name test files after their source file (e.g., `navbar.test.tsx` for `Navbar.tsx`)
+
+### Test Utilities
+
+Located in `src/test-utils.tsx`:
+
+- Custom render function with providers
+- QueryClient configuration for testing
+- Common test utilities and re-exports
+
+### Example Test Pattern
+
+```typescript
+import { render } from '@/test-utils'
+
+describe('ComponentName', () => {
+  it('renders expected content', () => {
+    const { getByRole, getByText } = render(<ComponentName />)
+    expect(getByRole('heading')).toBeInTheDocument()
+    expect(getByText(/expected content/i)).toBeInTheDocument()
+  })
+
+  it('handles different states', () => {
+    // Test loading, error, success states
+    // Test user interactions
+    // Test prop variations
+  })
+})
+```
 
 ## State Management
 
