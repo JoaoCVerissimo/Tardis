@@ -1,21 +1,24 @@
 import { useQuery } from '@tanstack/react-query'
 import { WeatherInfo, WeatherResponse, mapWeatherInfo } from './mappers/weather'
 
-const WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather'
-const WEATHER_QUERY_KEY = ['weather-info'] as const
+// London coordinates as fallback
+const FALLBACK_LOCATION = {
+  name: 'London',
+  latitude: 51.5074,
+  longitude: -0.1278,
+}
 
 async function fetchWeatherInfo(
   lat: number,
   lon: number
 ): Promise<WeatherInfo> {
+  // Using our server-side API route instead of directly calling OpenWeather API
   const params = new URLSearchParams({
     lat: lat.toString(),
     lon: lon.toString(),
-    appid: process.env.OPENWEATHER_API_KEY!,
-    units: 'metric',
   })
 
-  const response = await fetch(`${WEATHER_URL}?${params}`)
+  const response = await fetch(`/api/weather?${params}`)
   if (!response.ok) {
     throw new Error('Failed to fetch weather data')
   }
@@ -25,7 +28,7 @@ async function fetchWeatherInfo(
 }
 
 export function useWeatherInfo() {
-  const { data: position } = useQuery({
+  const locationQuery = useQuery({
     queryKey: ['geolocation'],
     queryFn: () =>
       new Promise<GeolocationPosition>((resolve, reject) => {
@@ -33,18 +36,37 @@ export function useWeatherInfo() {
           reject(new Error('Geolocation is not supported'))
           return
         }
-        navigator.geolocation.getCurrentPosition(resolve, reject)
+
+        // Add timeout to fall back to London if permission takes too long
+        const timeoutId = setTimeout(() => {
+          reject(new Error('Geolocation request timed out'))
+        }, 5000)
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            clearTimeout(timeoutId)
+            resolve(position)
+          },
+          (error) => {
+            clearTimeout(timeoutId)
+            reject(error)
+          },
+          { maximumAge: 10 * 60 * 1000 } // Cache location for 10 minutes
+        )
       }),
+    retry: false,
+    staleTime: 10 * 60 * 1000, // Consider data fresh for 10 minutes
   })
 
-  return useQuery({
-    queryKey: [
-      ...WEATHER_QUERY_KEY,
-      position?.coords?.latitude,
-      position?.coords?.longitude,
-    ],
-    queryFn: () =>
-      fetchWeatherInfo(position!.coords.latitude, position!.coords.longitude),
-    enabled: !!position,
-  })
+  // Use London as fallback if geolocation fails or is not yet resolved
+  const coords = locationQuery.data?.coords ?? FALLBACK_LOCATION
+
+  return {
+    ...useQuery({
+      queryKey: ['weather', coords.latitude, coords.longitude],
+      queryFn: async () =>
+        await fetchWeatherInfo(coords.latitude, coords.longitude),
+      enabled: !!coords,
+    }),
+  }
 }

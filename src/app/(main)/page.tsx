@@ -15,9 +15,6 @@ export default function Home() {
 
       <div className="space-y-6">
         <h2>Features</h2>
-        <div className="w-full max-w-lg">
-          <WeatherWidget />
-        </div>
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <h3>Modern Stack</h3>
@@ -48,6 +45,18 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="border-border bg-card/50 space-y-4 rounded-lg border p-6 shadow-sm">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Current Weather
+          </h2>
+          <span className="text-muted-foreground text-sm">
+            Powered by OpenWeather API
+          </span>
+        </div>
+        <WeatherWidget />
       </div>
 
       <div className="space-y-4">

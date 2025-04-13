@@ -34,6 +34,111 @@
   --sidebar-ring: hsl(210 40% 98%);
 }
 
+/* Custom Weather Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes rain {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(calc(100vh + 10px));
+  }
+}
+
+@keyframes snow {
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(calc(100vh + 10px)) rotate(360deg);
+  }
+}
+
+@keyframes drizzle {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bounce-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lightning {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10%,
+  30%,
+  50% {
+    opacity: 1;
+  }
+  20%,
+  40%,
+  60% {
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-rain {
+  animation: rain 1.5s linear infinite;
+}
+
+.animate-snow {
+  animation: snow 7s linear infinite;
+}
+
+.animate-drizzle {
+  animation: drizzle 1.5s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-lightning {
+  animation: lightning 3s ease-in-out infinite;
+}
+
 @layer defaults {
   body {
     background-color: var(--color-background);
