@@ -20,5 +20,9 @@ export function useRepositoryInfo() {
   return useQuery<RepositoryInfo>({
     queryKey: REPOSITORY_QUERY_KEY,
     queryFn: fetchRepositoryInfo,
+    // Cache for 1 hour since repo info doesn't change often
+    staleTime: 60 * 60 * 1000,
+    // Keep cached data for 12 hours
+    gcTime: 12 * 60 * 60 * 1000,
   })
 }

@@ -262,6 +262,10 @@ Best practices:
 - Define fetch functions outside hooks for separation of concerns
 - Return typed data from fetch functions
 - Use consistent error handling patterns
+- Configure appropriate cache times
+  - Use longer staleTime for data that changes infrequently
+  - Adjust gcTime based on how long data should be kept
+  - Consider user behavior and data freshness requirements
 
 ### Local State
 
