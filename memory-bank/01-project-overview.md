@@ -50,7 +50,14 @@ The application consists of the following pages:
    - Introduces visitors to the project
    - Uses default typography styles from globals.css
 
-2. **Design System** (`/design-system`)
+2. **About** (`/about`)
+
+   - Project information and background
+   - Repository statistics and details
+   - Uses TanStack Query for data fetching
+   - Features loading and error states
+
+3. **Design System** (`/design-system`)
    - Living documentation of the project's design system
    - Must be updated whenever design system changes are made
    - Showcases:
