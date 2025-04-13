@@ -40,7 +40,14 @@ function Navbar({ className }: NavbarProps) {
             <Menu className="size-5" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" />
+        <DropdownMenuContent align="end">
+          <Link
+            href="/design-system"
+            className="hover:bg-accent flex w-full items-center p-2"
+          >
+            Design System
+          </Link>
+        </DropdownMenuContent>
       </DropdownMenu>
     </nav>
   )

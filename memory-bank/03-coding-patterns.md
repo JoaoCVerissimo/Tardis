@@ -65,9 +65,28 @@ code: relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm
 components/
 ├── ui/               # Reusable UI components
 ├── features/         # Feature-specific components
-├── layouts/         # Layout components
 └── shared/          # Shared components across features
 ```
+
+### Layout Organization
+
+Layouts are managed through Next.js App Router:
+
+```
+app/
+├── layout.tsx        # Root layout (fonts, global styles)
+└── (main)/          # Main route group
+    ├── layout.tsx   # Shared layout (navbar, container)
+    ├── page.tsx     # Homepage
+    └── design-system/ # Design system page
+        └── page.tsx
+```
+
+Remember:
+
+- Route groups (in parentheses) organize routes without affecting URL structure
+- Layouts automatically wrap nested routes
+- Root layout is required and wraps all pages
 
 ### Component Structure
 
@@ -297,15 +316,29 @@ All colors are defined using HSL values for better control over lightness and op
 ## Project Structure
 
 ```
-src/
-├── app/                  # Next.js app directory
-├── components/           # React components
-├── lib/                 # Utility functions
-├── hooks/               # Custom hooks
-├── types/               # TypeScript types
-├── styles/              # Global styles
-└── tests/               # Test utilities
+(root)/
+├── public/            # Static files served from base URL (/)
+│   └── assets/        # Static assets (images, etc.)
+├── src/              # Application source code
+│   ├── app/          # Next.js app directory
+│   │   ├── favicon.ico    # App favicon (must be in app directory)
+│   │   ├── globals.css    # Application-wide styles
+│   │   └── ...           # Pages and layouts
+│   ├── components/   # React components
+│   ├── lib/         # Utility functions
+│   ├── hooks/       # Custom hooks
+│   └── types/       # TypeScript types
+├── .vscode/         # Editor settings
+└── ...             # Config files
 ```
+
+### File Organization
+
+- `public/assets/`: Contains static files served directly from the base URL (/)
+- `src/app/favicon.ico`: Must be in app directory for Next.js App Router to handle it correctly
+- `src/app/globals.css`: Must be in app directory for Next.js automatic style integration
+- `src/components/`: Organized React components (see Component Organization above)
+- `.vscode/`: Editor-specific settings for consistent development experience
 
 Remember to:
 

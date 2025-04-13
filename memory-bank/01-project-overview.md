@@ -16,14 +16,54 @@ Tardis is a personal portfolio and experimental website project that serves as b
 
 ```
 tardis/
-├── src/               # Source code directory
-│   ├── app/          # Next.js App Router pages
-│   ├── components/   # Reusable React components
-│   └── lib/         # Utility functions and shared code
-├── public/           # Static files
-├── memory-bank/      # Project documentation
-└── tests/           # Test files for components and utilities
+├── src/                    # Source code directory
+│   ├── app/               # Next.js App Router directory
+│   │   ├── (main)/       # Main route group with shared navbar layout
+│   │   │   ├── layout.tsx # Main layout with navbar for nested routes
+│   │   │   └── page.tsx  # Homepage
+│   │   └── layout.tsx    # Root layout with fonts and global styles
+│   ├── components/        # Reusable React components
+│   │   └── ui/           # UI components (buttons, inputs, etc.)
+│   └── lib/              # Utility functions and shared code
+├── public/               # Static files
+├── memory-bank/          # Project documentation
+└── tests/               # Test files for components and utilities
 ```
+
+### Next.js App Router Layouts
+
+The project uses Next.js 13+ App Router with a nested layout structure:
+
+- `src/app/layout.tsx`: Root layout that handles fonts and global styles
+- `src/app/(main)/layout.tsx`: Shared layout for main route group with navbar and page container
+- Route groups (in parentheses) are used to organize routes that share the same layout without affecting the URL structure
+
+### Pages
+
+The application consists of the following pages:
+
+1. **Homepage** (`/`)
+
+   - Entry point of the application
+   - Clean, minimal design
+   - Introduces visitors to the project
+   - Uses default typography styles from globals.css
+
+2. **Design System** (`/design-system`)
+   - Living documentation of the project's design system
+   - Must be updated whenever design system changes are made
+   - Showcases:
+     - Typography scale and styles
+     - Color system and variations
+     - Font families (Geist Sans and Mono)
+   - Features:
+     - Full-width layout with max-width constraint
+     - Organized sections with live examples
+     - Easily accessible through navbar menu
+   - **Important**: This page serves as the single source of truth for design patterns. When making design system changes:
+     1. Update the relevant styles in globals.css or theme configuration
+     2. Reflect these changes in the design system page
+     3. Ensure examples accurately represent current design tokens
 
 ## Getting Started
 
