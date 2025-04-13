@@ -56,6 +56,12 @@ export default function DesignSystem() {
           <div className="bg-muted text-muted-foreground rounded p-4">
             Muted Color
           </div>
+          <div className="bg-error text-error-foreground rounded p-4">
+            Error State
+          </div>
+          <div className="bg-pending text-pending-foreground rounded p-4">
+            Pending State
+          </div>
         </div>
       </section>
 

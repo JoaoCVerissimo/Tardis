@@ -13,6 +13,10 @@
   --color-accent-foreground: hsl(210 40% 98%);
   --color-muted: hsl(217 32% 17%);
   --color-muted-foreground: hsl(215 20% 65%);
+  --color-error: hsl(0 84% 40%);
+  --color-error-foreground: hsl(210 40% 98%);
+  --color-pending: hsl(215 25% 27%);
+  --color-pending-foreground: hsl(215 20% 65%);
   --color-border: hsl(216 34% 17%);
 }
 

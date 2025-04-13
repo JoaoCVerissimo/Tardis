@@ -11,7 +11,14 @@ The application uses a dark theme with the following color palette:
 - Primary: Almost white (HSL 210 40% 98%)
 - Secondary: Darker blue-gray (HSL 217 32% 17%)
 - Accent: Mid blue-gray (HSL 215 25% 27%)
+- Error: Warm red (HSL 0 84% 40%)
+- Pending: Neutral blue-gray (HSL 215 25% 27%)
 - Muted: Dark blue-gray with reduced opacity
+
+States and their foreground colors:
+
+- Error: Error background with light foreground
+- Pending: Pending background with muted text
 
 VS Code's theme is customized to match this color palette through `.vscode/settings.json`. The editor uses:
 
@@ -212,6 +219,49 @@ describe('Button', () => {
 5. Test error states and edge cases
 
 ## State Management
+
+### API Data Fetching
+
+- API hooks located in `src/hooks/api` directory
+- Use TanStack Query for server state management
+- Follow naming convention: `use-<resource>-<action>`
+- Implement proper error handling and loading states
+- Define TypeScript interfaces for API responses
+
+Example pattern:
+
+```typescript
+// src/hooks/api/use-resource-action.ts
+interface ResourceData {
+  // Define response type
+}
+
+const RESOURCE_URL = '/api/endpoint'
+const RESOURCE_QUERY_KEY = ['resource-key'] as const
+
+async function fetchResourceData(): Promise<ResourceData> {
+  const response = await fetch(RESOURCE_URL)
+  if (!response.ok) {
+    throw new Error('Request failed')
+  }
+  const data = await response.json()
+  return data
+}
+
+export function useResourceAction() {
+  return useQuery<ResourceData>({
+    queryKey: RESOURCE_QUERY_KEY,
+    queryFn: fetchResourceData,
+  })
+}
+```
+
+Best practices:
+
+- Extract URLs and query keys as constants
+- Define fetch functions outside hooks for separation of concerns
+- Return typed data from fetch functions
+- Use consistent error handling patterns
 
 ### Local State
 
