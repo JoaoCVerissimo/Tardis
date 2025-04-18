@@ -1,13 +1,13 @@
 'use client'
 
 import { useWeatherInfo } from '@/hooks/api/use-weather-info'
+import { Theme, mapConditionToTheme } from '@/lib/weatherUtils'
 import React, { createContext, useContext, useEffect, useState } from 'react'
-
-type Theme = 'default' | 'clear' | 'clouds' | 'rain' | 'snow' | 'thunderstorm'
 
 interface ThemeProviderProps {
   children: React.ReactNode
-  defaultTheme?: Theme
+  defaultTheme?: Theme // Default theme is 'default' - might become redundant
+  initialTheme?: Theme // Add prop for server-rendered theme
 }
 
 interface ThemeProviderState {
@@ -22,24 +22,17 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
-// Mapping from weather condition (case-insensitive) to theme
-const weatherToThemeMap: Record<string, Theme> = {
-  clear: 'clear',
-  clouds: 'clouds',
-  rain: 'rain',
-  drizzle: 'rain', // Map Drizzle to Rain theme
-  snow: 'snow',
-  thunderstorm: 'thunderstorm',
-}
-
 export function ThemeProvider({
   children,
-  defaultTheme = 'default',
+  defaultTheme = 'default', // Keep for potential fallback if initialTheme is undefined
+  initialTheme, // Receive the server-determined theme
 }: ThemeProviderProps) {
   const { data: weatherData, isPending, error } = useWeatherInfo()
 
-  // Internal state for the current theme
-  const [internalTheme, setInternalTheme] = useState<Theme>(defaultTheme)
+  // Initialize state with server-provided theme, fallback to defaultTheme
+  const [internalTheme, setInternalTheme] = useState<Theme>(
+    initialTheme || defaultTheme
+  )
   // State to track if the theme was set manually
   const [isManualTheme, setIsManualTheme] = useState<boolean>(false)
 
@@ -51,16 +44,34 @@ export function ThemeProvider({
     let currentTheme: Theme = defaultTheme
 
     if (!isPending && !error && weatherData?.condition) {
-      const conditionLower = weatherData.condition.toLowerCase()
-      currentTheme = weatherToThemeMap[conditionLower] || defaultTheme
+      currentTheme = mapConditionToTheme(weatherData.condition)
     }
-    // console.log(`Applying weather theme: ${currentTheme}`) // For debugging
-    setInternalTheme(currentTheme)
+    // console.log(`ThemeProvider Effect: Current theme theme: ${currentTheme}, Pending: ${isPending}, Initial: ${initialTheme}, Internal: ${internalTheme}`); // Debug log
 
-    // Apply the theme to the document
-    const root = window.document.documentElement
-    root.setAttribute(`data-theme`, currentTheme)
-  }, [weatherData, isPending, error, defaultTheme, isManualTheme])
+    // --- Refined Logic to prevent flicker ---
+    // Avoid setting to default during initial client load if a server theme exists
+    // and the client calculation is still pending or resulted in default temporarily.
+    const isInitialLoadAndDefaulting =
+      isPending && initialTheme && currentTheme === defaultTheme
+
+    // Only update state and DOM if:
+    // 1. The currentTheme is different from the current state AND
+    // 2. We are NOT in the specific initial load scenario described above.
+    if (currentTheme !== internalTheme && !isInitialLoadAndDefaulting) {
+      // console.log(`ThemeProvider: Updating theme from ${internalTheme} to ${currentTheme}`); // Debug log
+      setInternalTheme(currentTheme)
+      const root = window.document.documentElement
+      root.setAttribute(`data-theme`, currentTheme)
+    }
+  }, [
+    weatherData,
+    isPending,
+    error,
+    defaultTheme,
+    isManualTheme,
+    internalTheme,
+    initialTheme,
+  ])
 
   // Function to manually set the theme
   const handleSetTheme = (newTheme: Theme) => {

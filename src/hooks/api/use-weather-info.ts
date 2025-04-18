@@ -1,12 +1,6 @@
+import { FALLBACK_LOCATION } from '@/lib/weatherUtils'
 import { useQuery } from '@tanstack/react-query'
 import { WeatherInfo, WeatherResponse, mapWeatherInfo } from './mappers/weather'
-
-// London coordinates as fallback
-const FALLBACK_LOCATION = {
-  name: 'London',
-  latitude: 51.5074,
-  longitude: -0.1278,
-}
 
 async function fetchWeatherInfo(
   lat: number,
@@ -56,6 +50,7 @@ export function useWeatherInfo() {
       }),
     retry: false,
     staleTime: 10 * 60 * 1000, // Consider data fresh for 10 minutes
+    enabled: false, // disabled for now until we decide to get user location
   })
 
   // Use London as fallback if geolocation fails or is not yet resolved
@@ -66,7 +61,10 @@ export function useWeatherInfo() {
       queryKey: ['weather', coords.latitude, coords.longitude],
       queryFn: async () =>
         await fetchWeatherInfo(coords.latitude, coords.longitude),
-      enabled: !!coords,
+      enabled: true,
+      staleTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchInterval: 30 * 60 * 1000,
     }),
   }
 }
