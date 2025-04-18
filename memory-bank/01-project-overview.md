@@ -11,7 +11,7 @@ Tardis is a personal portfolio and experimental website project that serves as b
 - Provide a platform for experimenting with new technologies
 - Maintain high code quality and testing standards
 - Demonstrate best practices in modern web development
-- Implement a dynamic, weather-based theming system alongside the default dark theme
+- Implement a dynamic, weather-based theming system alongside the default theme
 
 ## Project Structure
 

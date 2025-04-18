@@ -4,7 +4,7 @@
 
 ### Colors
 
-The application primarily uses a dark theme but also features a dynamic, weather-based theming system controlled by `src/app/_providers/ThemeProvider.tsx`. This provider applies a `data-theme` attribute (`clear`, `clouds`, `rain`, `snow`, `thunderstorm`) to the HTML element based on weather data, overriding the default dark theme variables defined in `src/app/globals.css`.
+The application primarily uses a dark blue theme but also features a dynamic, weather-based theming system controlled by `src/app/_providers/ThemeProvider.tsx`. This provider applies a `data-theme` attribute (`clear`, `clouds`, `rain`, `snow`, `thunderstorm`) to the HTML element based on weather data, overriding the default dark blue theme variables defined in `src/app/globals.css`.
 
 #### Default Dark Theme
 
@@ -293,8 +293,8 @@ describe('ComponentName', () => {
 ### Theme Management
 
 - **Provider:** `src/app/_providers/ThemeProvider.tsx`
-- **Mechanism:** Uses the `useWeatherInfo` hook to fetch weather data. Based on the condition, it sets a `data-theme` attribute on the `<html>` element (`clear`, `clouds`, `rain`, `snow`, `thunderstorm`). If no weather data is available or the condition doesn't match, it defaults to the dark theme (by adding the `dark` class). It also exposes a `setTheme` function via the `useTheme` hook to allow manual theme overrides (e.g., for testing on the Design System page). Manual setting prevents automatic weather updates until the next page load or if reset logic is implemented.
-- **CSS:** `src/app/globals.css` defines the color variables for each theme within `@theme` blocks and applies them using `[data-theme='...']` selectors. Generic variables (`--color-background`, etc.) are used in base styles and components, automatically adopting the active theme's colors.
+- **Mechanism:** Uses the `useWeatherInfo` hook to fetch weather data. Based on the condition, it sets a `data-theme` attribute on the `<html>` element (`clear`, `clouds`, `rain`, `snow`, `thunderstorm`). If no weather data is available or the condition doesn't match a specific weather theme, it applies `data-theme="default"`. It also exposes a `setTheme` function via the `useTheme` hook to allow manual theme overrides (e.g., for testing on the Design System page). Manual setting prevents automatic weather updates until the next page load or if reset logic is implemented.
+- **CSS:** `src/app/globals.css` defines the color variables for each theme (including `default`) within `@theme` blocks and applies them using `[data-theme='...']` selectors. Generic variables (`--color-background`, etc.) are used in base styles and components, automatically adopting the active theme's colors.
 - **Usage:** The `ThemeProvider` wraps the application content within the root layout (`src/app/layout.tsx`), ensuring the theme is applied globally. The `useTheme` hook can be used in components to access the current theme or the `setTheme` function.
 
 ### API Data Fetching

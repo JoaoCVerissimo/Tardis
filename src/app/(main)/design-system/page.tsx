@@ -4,7 +4,7 @@ import { useTheme } from '@/app/_providers/ThemeProvider'
 import { Button } from '@/components/ui/button'
 
 const themes = [
-  'dark',
+  'default',
   'clear',
   'clouds',
   'rain',

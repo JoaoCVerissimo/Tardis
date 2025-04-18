@@ -3,7 +3,7 @@
 import { useWeatherInfo } from '@/hooks/api/use-weather-info'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'dark' | 'clear' | 'clouds' | 'rain' | 'snow' | 'thunderstorm'
+type Theme = 'default' | 'clear' | 'clouds' | 'rain' | 'snow' | 'thunderstorm'
 
 interface ThemeProviderProps {
   children: React.ReactNode
@@ -16,7 +16,7 @@ interface ThemeProviderState {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'dark',
+  theme: 'default',
   setTheme: () => null,
 }
 
@@ -34,9 +34,10 @@ const weatherToThemeMap: Record<string, Theme> = {
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'dark',
+  defaultTheme = 'default',
 }: ThemeProviderProps) {
   const { data: weatherData, isPending, error } = useWeatherInfo()
+
   // Internal state for the current theme
   const [internalTheme, setInternalTheme] = useState<Theme>(defaultTheme)
   // State to track if the theme was set manually
@@ -58,16 +59,7 @@ export function ThemeProvider({
 
     // Apply the theme to the document
     const root = window.document.documentElement
-    // Remove previous theme attribute/class
-    root.removeAttribute(`data-theme`) // Remove generic data-theme
-    root.classList.remove('dark') // Remove dark class
-
-    // Apply the new theme attribute/class
-    if (currentTheme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.setAttribute(`data-theme`, currentTheme)
-    }
+    root.setAttribute(`data-theme`, currentTheme)
   }, [weatherData, isPending, error, defaultTheme, isManualTheme])
 
   // Function to manually set the theme
@@ -77,17 +69,7 @@ export function ThemeProvider({
 
     // Apply the theme immediately to the document
     const root = window.document.documentElement
-    // Remove previous theme attribute/class
-    root.removeAttribute(`data-theme`)
-    root.classList.remove('dark')
-
-    // Apply the new theme attribute/class
-    if (newTheme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.setAttribute(`data-theme`, newTheme)
-    }
-    // Optionally, add logic to reset isManualTheme after some time or event
+    root.setAttribute(`data-theme`, newTheme)
   }
 
   const value = {
