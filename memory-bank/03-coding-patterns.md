@@ -4,7 +4,11 @@
 
 ### Colors
 
-The application uses a dark theme with the following color palette:
+The application primarily uses a dark theme but also features a dynamic, weather-based theming system controlled by `src/app/_providers/ThemeProvider.tsx`. This provider applies a `data-theme` attribute (`clear`, `clouds`, `rain`, `snow`, `thunderstorm`) to the HTML element based on weather data, overriding the default dark theme variables defined in `src/app/globals.css`.
+
+#### Default Dark Theme
+
+The default dark theme uses the following color palette:
 
 - Background: Dark blue-gray (HSL 222 47% 11%)
 - Foreground: Light gray (HSL 213 31% 91%)
@@ -15,7 +19,19 @@ The application uses a dark theme with the following color palette:
 - Pending: Neutral blue-gray (HSL 215 25% 27%)
 - Muted: Dark blue-gray with reduced opacity
 
-States and their foreground colors:
+#### Weather Themes
+
+Specific color palettes are defined in `src/app/globals.css` within `@theme` blocks and applied via `[data-theme='...']` selectors for the following conditions:
+
+- **Clear:** Light yellows, oranges, and sky blues.
+- **Clouds:** Grays, muted blues, and whites.
+- **Rain:** Blues, blue-grays, and soft indigos.
+- **Snow:** Whites, light cyans, and soft lavenders.
+- **Thunderstorm:** Dark indigos, purples, and electric yellows.
+
+Refer to `src/app/globals.css` for the exact HSL values for each theme.
+
+#### States and Foreground Colors (General)
 
 - Error: Error background with light foreground
 - Pending: Pending background with muted text
@@ -70,9 +86,10 @@ code: relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm
 
 ```
 components/
-├── ui/               # Reusable UI components
-├── features/         # Feature-specific components
-└── shared/          # Shared components across features
+├── ui/               # Reusable UI components (from shadcn/ui)
+├── weather-widget/   # Weather widget component and related files
+├── features/         # Feature-specific components (if any)
+└── shared/          # Shared components across features (if any)
 ```
 
 ### Layout Organization
@@ -225,13 +242,13 @@ describe('Button', () => {
 
 ### Test File Organization
 
-Tests are organized in a dedicated test directory structure:
+Tests are organized in a dedicated test directory structure, mirroring the `src` structure:
 
 ```
 src/
 └── tests/          # Test files directory
-    ├── pages/      # Page tests
-    ├── components/ # Component tests
+    ├── pages/      # Page tests (e.g., home.test.tsx)
+    ├── components/ # Component tests (e.g., navbar.test.tsx, weather-widget.test.tsx)
     └── utils/      # Utility function tests
 ```
 
@@ -272,6 +289,13 @@ describe('ComponentName', () => {
 ```
 
 ## State Management
+
+### Theme Management
+
+- **Provider:** `src/app/_providers/ThemeProvider.tsx`
+- **Mechanism:** Uses the `useWeatherInfo` hook to fetch weather data. Based on the condition, it sets a `data-theme` attribute on the `<html>` element (`clear`, `clouds`, `rain`, `snow`, `thunderstorm`). If no weather data is available or the condition doesn't match, it defaults to the dark theme (by adding the `dark` class). It also exposes a `setTheme` function via the `useTheme` hook to allow manual theme overrides (e.g., for testing on the Design System page). Manual setting prevents automatic weather updates until the next page load or if reset logic is implemented.
+- **CSS:** `src/app/globals.css` defines the color variables for each theme within `@theme` blocks and applies them using `[data-theme='...']` selectors. Generic variables (`--color-background`, etc.) are used in base styles and components, automatically adopting the active theme's colors.
+- **Usage:** The `ThemeProvider` wraps the application content within the root layout (`src/app/layout.tsx`), ensuring the theme is applied globally. The `useTheme` hook can be used in components to access the current theme or the `setTheme` function.
 
 ### API Data Fetching
 
@@ -410,7 +434,7 @@ async function fetchData() {
 
 ### CSS Variables
 
-All colors are defined using HSL values for better control over lightness and opacity:
+All colors are defined using HSL values in `src/app/globals.css`. Generic variables like `--color-background`, `--color-primary`, etc., are defined in `:root` and map to the currently active theme's specific variables (e.g., `--color-background-clear` when `data-theme='clear'` is active). This allows components to use generic color classes while adapting to the dynamic theme.
 
 ```css
 :root {

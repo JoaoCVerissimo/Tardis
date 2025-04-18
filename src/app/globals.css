@@ -20,6 +20,78 @@
   --color-border: hsl(216 34% 17%);
 }
 
+/* Weather Themes */
+@theme {
+  /* Clear Theme (Sunny) */
+  --color-background-clear: hsl(45 100% 95%); /* Light Yellow */
+  --color-foreground-clear: hsl(30 50% 20%); /* Dark Brown */
+  --color-primary-clear: hsl(25 95% 55%); /* Bright Orange */
+  --color-primary-foreground-clear: hsl(0 0% 100%); /* White */
+  --color-secondary-clear: hsl(50 90% 75%); /* Soft Yellow */
+  --color-secondary-foreground-clear: hsl(30 50% 20%); /* Dark Brown */
+  --color-accent-clear: hsl(195 90% 50%); /* Sky Blue */
+  --color-accent-foreground-clear: hsl(0 0% 100%); /* White */
+  --color-muted-clear: hsl(45 50% 85%); /* Pale Yellow */
+  --color-muted-foreground-clear: hsl(30 30% 40%); /* Medium Brown */
+  --color-border-clear: hsl(30 20% 80%); /* Light Gray-Brown */
+
+  /* Clouds Theme */
+  --color-background-clouds: hsl(210 30% 92%); /* Light Gray-Blue */
+  --color-foreground-clouds: hsl(215 25% 35%); /* Dark Slate Gray */
+  --color-primary-clouds: hsl(210 40% 98%); /* Almost White */
+  --color-primary-foreground-clouds: hsl(215 25% 35%); /* Dark Slate Gray */
+  --color-secondary-clouds: hsl(210 20% 80%); /* Medium Gray */
+  --color-secondary-foreground-clouds: hsl(215 25% 35%); /* Dark Slate Gray */
+  --color-accent-clouds: hsl(215 15% 55%); /* Muted Blue-Gray */
+  --color-accent-foreground-clouds: hsl(0 0% 100%); /* White */
+  --color-muted-clouds: hsl(210 25% 88%); /* Lighter Gray */
+  --color-muted-foreground-clouds: hsl(215 20% 50%); /* Medium Slate Gray */
+  --color-border-clouds: hsl(210 15% 75%); /* Gray */
+
+  /* Rain Theme */
+  --color-background-rain: hsl(210 60% 96%); /* Very Light Blue */
+  --color-foreground-rain: hsl(210 30% 25%); /* Dark Blue-Gray */
+  --color-primary-rain: hsl(205 80% 55%); /* Medium Blue */
+  --color-primary-foreground-rain: hsl(0 0% 100%); /* White */
+  --color-secondary-rain: hsl(210 40% 88%); /* Light Blue-Gray */
+  --color-secondary-foreground-rain: hsl(210 30% 25%); /* Dark Blue-Gray */
+  --color-accent-rain: hsl(220 50% 65%); /* Soft Indigo */
+  --color-accent-foreground-rain: hsl(0 0% 100%); /* White */
+  --color-muted-rain: hsl(210 50% 92%); /* Pale Blue */
+  --color-muted-foreground-rain: hsl(210 25% 55%); /* Medium Blue-Gray */
+  --color-border-rain: hsl(210 30% 80%); /* Light Gray-Blue Border */
+
+  /* Snow Theme */
+  --color-background-snow: hsl(200 50% 98%); /* Almost White Blue Tint */
+  --color-foreground-snow: hsl(210 20% 30%); /* Dark Grayish Blue */
+  --color-primary-snow: hsl(190 80% 75%); /* Light Cyan */
+  --color-primary-foreground-snow: hsl(210 20% 30%); /* Dark Grayish Blue */
+  --color-secondary-snow: hsl(200 30% 90%); /* Very Light Gray-Blue */
+  --color-secondary-foreground-snow: hsl(210 20% 30%); /* Dark Grayish Blue */
+  --color-accent-snow: hsl(220 60% 80%); /* Soft Lavender */
+  --color-accent-foreground-snow: hsl(210 20% 30%); /* Dark Grayish Blue */
+  --color-muted-snow: hsl(200 40% 94%); /* Pale Cyan-Gray */
+  --color-muted-foreground-snow: hsl(210 15% 50%); /* Medium Grayish Blue */
+  --color-border-snow: hsl(200 25% 85%); /* Light Gray-Blue Border */
+
+  /* Thunderstorm Theme */
+  --color-background-thunderstorm: hsl(240 15% 15%); /* Dark Indigo */
+  --color-foreground-thunderstorm: hsl(240 10% 85%); /* Light Grayish Purple */
+  --color-primary-thunderstorm: hsl(260 80% 70%); /* Bright Purple */
+  --color-primary-foreground-thunderstorm: hsl(0 0% 100%); /* White */
+  --color-secondary-thunderstorm: hsl(240 10% 25%); /* Dark Grayish Indigo */
+  --color-secondary-foreground-thunderstorm: hsl(
+    240 10% 85%
+  ); /* Light Grayish Purple */
+  --color-accent-thunderstorm: hsl(60 90% 60%); /* Electric Yellow */
+  --color-accent-foreground-thunderstorm: hsl(240 15% 15%); /* Dark Indigo */
+  --color-muted-thunderstorm: hsl(240 10% 20%); /* Very Dark Indigo */
+  --color-muted-foreground-thunderstorm: hsl(
+    240 5% 60%
+  ); /* Medium Grayish Purple */
+  --color-border-thunderstorm: hsl(240 5% 30%); /* Dark Gray Border */
+}
+
 :root {
   --radius: 0.5rem;
   --font-sans: var(--font-geist-sans);
@@ -32,6 +104,115 @@
   --sidebar-accent-foreground: hsl(210 40% 98%);
   --sidebar-border: hsl(217 32% 17%);
   --sidebar-ring: hsl(210 40% 98%);
+
+  /* Default to dark theme variables (or map to shadcn defaults if preferred) */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-error: hsl(var(--destructive)); /* Assuming destructive is error */
+  --color-error-foreground: hsl(var(--destructive-foreground));
+  --color-pending: hsl(var(--accent)); /* Reusing accent for pending */
+  --color-pending-foreground: hsl(var(--accent-foreground));
+  --color-border: hsl(var(--border));
+  --color-radius: var(--radius);
+}
+
+/* Apply themes using data attributes */
+[data-theme='clear'] {
+  --color-background: var(--color-background-clear);
+  --color-foreground: var(--color-foreground-clear);
+  --color-primary: var(--color-primary-clear);
+  --color-primary-foreground: var(--color-primary-foreground-clear);
+  --color-secondary: var(--color-secondary-clear);
+  --color-secondary-foreground: var(--color-secondary-foreground-clear);
+  --color-accent: var(--color-accent-clear);
+  --color-accent-foreground: var(--color-accent-foreground-clear);
+  --color-muted: var(--color-muted-clear);
+  --color-muted-foreground: var(--color-muted-foreground-clear);
+  --color-border: var(--color-border-clear);
+  --color-error: hsl(0 84% 40%);
+  --color-error-foreground: hsl(0 0% 100%);
+  --color-pending: hsl(45 50% 85%);
+  --color-pending-foreground: hsl(30 30% 40%);
+}
+
+[data-theme='clouds'] {
+  --color-background: var(--color-background-clouds);
+  --color-foreground: var(--color-foreground-clouds);
+  --color-primary: var(--color-primary-clouds);
+  --color-primary-foreground: var(--color-primary-foreground-clouds);
+  --color-secondary: var(--color-secondary-clouds);
+  --color-secondary-foreground: var(--color-secondary-foreground-clouds);
+  --color-accent: var(--color-accent-clouds);
+  --color-accent-foreground: var(--color-accent-foreground-clouds);
+  --color-muted: var(--color-muted-clouds);
+  --color-muted-foreground: var(--color-muted-foreground-clouds);
+  --color-border: var(--color-border-clouds);
+  --color-error: hsl(0 84% 40%);
+  --color-error-foreground: hsl(0 0% 100%);
+  --color-pending: hsl(210 25% 88%);
+  --color-pending-foreground: hsl(215 20% 50%);
+}
+
+[data-theme='rain'] {
+  --color-background: var(--color-background-rain);
+  --color-foreground: var(--color-foreground-rain);
+  --color-primary: var(--color-primary-rain);
+  --color-primary-foreground: var(--color-primary-foreground-rain);
+  --color-secondary: var(--color-secondary-rain);
+  --color-secondary-foreground: var(--color-secondary-foreground-rain);
+  --color-accent: var(--color-accent-rain);
+  --color-accent-foreground: var(--color-accent-foreground-rain);
+  --color-muted: var(--color-muted-rain);
+  --color-muted-foreground: var(--color-muted-foreground-rain);
+  --color-border: var(--color-border-rain);
+  --color-error: hsl(0 84% 40%);
+  --color-error-foreground: hsl(0 0% 100%);
+  --color-pending: hsl(210 50% 92%);
+  --color-pending-foreground: hsl(210 25% 55%);
+}
+
+[data-theme='snow'] {
+  --color-background: var(--color-background-snow);
+  --color-foreground: var(--color-foreground-snow);
+  --color-primary: var(--color-primary-snow);
+  --color-primary-foreground: var(--color-primary-foreground-snow);
+  --color-secondary: var(--color-secondary-snow);
+  --color-secondary-foreground: var(--color-secondary-foreground-snow);
+  --color-accent: var(--color-accent-snow);
+  --color-accent-foreground: var(--color-accent-foreground-snow);
+  --color-muted: var(--color-muted-snow);
+  --color-muted-foreground: var(--color-muted-foreground-snow);
+  --color-border: var(--color-border-snow);
+  --color-error: hsl(0 84% 40%);
+  --color-error-foreground: hsl(0 0% 100%);
+  --color-pending: hsl(200 40% 94%);
+  --color-pending-foreground: hsl(210 15% 50%);
+}
+
+[data-theme='thunderstorm'] {
+  --color-background: var(--color-background-thunderstorm);
+  --color-foreground: var(--color-foreground-thunderstorm);
+  --color-primary: var(--color-primary-thunderstorm);
+  --color-primary-foreground: var(--color-primary-foreground-thunderstorm);
+  --color-secondary: var(--color-secondary-thunderstorm);
+  --color-secondary-foreground: var(--color-secondary-foreground-thunderstorm);
+  --color-accent: var(--color-accent-thunderstorm);
+  --color-accent-foreground: var(--color-accent-foreground-thunderstorm);
+  --color-muted: var(--color-muted-thunderstorm);
+  --color-muted-foreground: var(--color-muted-foreground-thunderstorm);
+  --color-border: var(--color-border-thunderstorm);
+  --color-error: hsl(0 84% 40%);
+  --color-error-foreground: hsl(0 0% 100%);
+  --color-pending: hsl(240 10% 20%);
+  --color-pending-foreground: hsl(240 5% 60%);
 }
 
 /* Custom Weather Animations */
@@ -219,9 +400,9 @@
 
 @layer base {
   * {
-    @apply border-border outline-blue-500/50;
+    @apply border-[var(--color-border)] outline-blue-500/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[var(--color-background)] text-[var(--color-foreground)];
   }
 }

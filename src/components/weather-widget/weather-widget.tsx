@@ -76,29 +76,9 @@ export function WeatherWidget() {
   const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
-  // Animation on mount
   useEffect(() => {
     setIsVisible(true)
   }, [])
-
-  // Weather-specific background classes
-  const getWeatherBackground = (condition: string) => {
-    switch (condition) {
-      case 'Clear':
-        return 'bg-accent text-accent-foreground'
-      case 'Clouds':
-        return 'bg-muted text-muted-foreground'
-      case 'Rain':
-      case 'Drizzle':
-        return 'bg-secondary text-secondary-foreground'
-      case 'Snow':
-        return 'bg-primary text-primary-foreground'
-      case 'Thunderstorm':
-        return 'bg-accent text-accent-foreground'
-      default:
-        return 'bg-accent text-accent-foreground'
-    }
-  }
 
   if (isPending) {
     return (
@@ -123,7 +103,6 @@ export function WeatherWidget() {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className={cn(
-        getWeatherBackground(data.condition),
         'relative overflow-hidden rounded-lg p-5 shadow-lg transition-all duration-500 ease-in-out',
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
         isHovering ? 'scale-[1.01] shadow-xl' : 'scale-100'

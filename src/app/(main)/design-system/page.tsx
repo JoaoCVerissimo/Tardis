@@ -1,7 +1,46 @@
+'use client'
+
+import { useTheme } from '@/app/_providers/ThemeProvider'
+import { Button } from '@/components/ui/button'
+
+const themes = [
+  'dark',
+  'clear',
+  'clouds',
+  'rain',
+  'snow',
+  'thunderstorm',
+] as const
+
 export default function DesignSystem() {
+  const { setTheme } = useTheme()
+
   return (
     <div className="mx-auto w-full max-w-[1400px] space-y-8">
       <h1 className="text-4xl font-bold tracking-tight">Design System</h1>
+
+      <section className="space-y-4">
+        <h2 className="text-3xl font-semibold tracking-tight">
+          Theme Switching (Manual)
+        </h2>
+        <p className="text-muted-foreground">
+          Test the different weather-based themes. Note: Manually setting a
+          theme here will override the automatic weather-based theme until the
+          next page load or weather update (if override reset logic is added).
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {themes.map((themeName) => (
+            <Button
+              key={themeName}
+              variant="outline"
+              onClick={() => setTheme(themeName)}
+              className="capitalize"
+            >
+              {themeName}
+            </Button>
+          ))}
+        </div>
+      </section>
 
       <section className="space-y-4">
         <h2 className="text-3xl font-semibold tracking-tight">

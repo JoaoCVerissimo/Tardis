@@ -1,6 +1,6 @@
 'use client'
 
-import { WeatherWidget } from '@/components/ui/weather-widget'
+import { WeatherWidget } from '@/components/weather-widget/weather-widget'
 
 export default function Home() {
   return (

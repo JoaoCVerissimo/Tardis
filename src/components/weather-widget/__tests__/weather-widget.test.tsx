@@ -1,6 +1,6 @@
 import { useWeatherInfo } from '@/hooks/api/use-weather-info'
 import { render, screen } from '@testing-library/react'
-import { WeatherWidget } from '../weather-widget'
+import { WeatherWidget } from '../../weather-widget/weather-widget'
 
 // Mock the hooks
 jest.mock('@/hooks/api/use-weather-info')

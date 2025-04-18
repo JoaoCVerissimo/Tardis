@@ -11,6 +11,7 @@ Tardis is a personal portfolio and experimental website project that serves as b
 - Provide a platform for experimenting with new technologies
 - Maintain high code quality and testing standards
 - Demonstrate best practices in modern web development
+- Implement a dynamic, weather-based theming system alongside the default dark theme
 
 ## Project Structure
 
@@ -21,10 +22,11 @@ tardis/
 │   │   ├── (main)/       # Main route group with shared navbar layout
 │   │   │   ├── layout.tsx # Main layout with navbar for nested routes
 │   │   │   └── page.tsx  # Homepage
-│   │   ├── _providers/    # App-level providers and configurations
-│   │   └── layout.tsx    # Root layout with fonts and global styles
+│   │   ├── _providers/    # App-level providers (QueryProvider, ThemeProvider)
+│   │   └── layout.tsx    # Root layout (fonts, global styles, providers)
 │   ├── components/        # Reusable UI components
-│   │   └── ui/           # Shadcn UI components
+│   │   ├── ui/           # Shadcn UI components
+│   │   └── weather-widget/ # Weather widget component
 │   └── lib/              # Utility functions and shared code
 ├── public/               # Static files
 ├── memory-bank/          # Project documentation
@@ -35,9 +37,10 @@ tardis/
 
 The project uses Next.js 13+ App Router with a nested layout structure:
 
-- `src/app/layout.tsx`: Root layout that handles fonts and global styles
-- `src/app/(main)/layout.tsx`: Shared layout for main route group with navbar and page container
-- Route groups (in parentheses) are used to organize routes that share the same layout without affecting the URL structure
+- `src/app/layout.tsx`: Root layout handling fonts, global styles, and wrapping the app with `QueryProvider` and `ThemeProvider`.
+- `src/app/(main)/layout.tsx`: Shared layout for main route group with navbar and page container.
+- `src/app/_providers/ThemeProvider.tsx`: Manages the dynamic weather-based theme switching by applying a `data-theme` attribute to the HTML element based on weather conditions. Also provides a `setTheme` function for manual overrides (used on the Design System page).
+- Route groups (in parentheses) organize routes sharing the same layout without affecting the URL structure.
 
 ### Pages
 
