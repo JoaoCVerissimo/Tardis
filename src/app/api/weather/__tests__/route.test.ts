@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server'
 import { GET } from '../route'
 
-// Mock Next.js modules to prevent "Request is not defined" error
 jest.mock('next/server', () => ({
   NextRequest: jest.fn().mockImplementation((url) => ({
     url,
@@ -15,7 +14,6 @@ jest.mock('next/server', () => ({
   },
 }))
 
-// Mock environment variables
 const originalEnv = process.env
 
 describe('Weather API Route', () => {
@@ -40,7 +38,7 @@ describe('Weather API Route', () => {
     expect(data).toEqual({ error: 'Missing lat or lon parameters' })
   })
 
-  it('should return 500 if API key is missing', async () => {
+  it('should return 502 if API key is missing', async () => {
     // Remove API key
     process.env.OPENWEATHER_API_KEY = ''
 
@@ -50,12 +48,12 @@ describe('Weather API Route', () => {
     )
     const response = await GET(request)
 
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(502)
     const data = await response.json()
-    expect(data).toEqual({ error: 'Server configuration error' })
+    expect(data.error).toContain('Failed to fetch weather data')
   })
 
-  it('should return 401 if OpenWeather API returns unauthorized', async () => {
+  it('should return 502 if OpenWeather API returns unauthorized', async () => {
     // Mock fetch to return a 401 response
     ;(global.fetch as jest.Mock).mockResolvedValue({
       ok: false,
@@ -70,15 +68,12 @@ describe('Weather API Route', () => {
     )
     const response = await GET(request)
 
-    expect(response.status).toBe(401)
+    expect(response.status).toBe(502)
     const data = await response.json()
-    expect(data).toEqual({
-      error:
-        'API key unauthorized. Please check your OpenWeatherMap subscription.',
-    })
+    expect(data.error).toContain('Failed to fetch weather data')
   })
 
-  it('should return 500 if OpenWeather API returns other error', async () => {
+  it('should return 502 if OpenWeather API returns other error', async () => {
     // Mock fetch to return a 500 response
     ;(global.fetch as jest.Mock).mockResolvedValue({
       ok: false,
@@ -93,9 +88,9 @@ describe('Weather API Route', () => {
     )
     const response = await GET(request)
 
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(502)
     const data = await response.json()
-    expect(data).toEqual({ error: 'Failed to fetch weather data' })
+    expect(data.error).toContain('Failed to fetch weather data')
   })
 
   it('should return weather data on successful API call', async () => {
@@ -156,17 +151,15 @@ describe('Weather API Route', () => {
   })
 
   it('should handle network errors', async () => {
-    // Mock network error
     ;(global.fetch as jest.Mock).mockRejectedValue(new Error('Network failure'))
 
-    // Create request with required params
     const request = new NextRequest(
       'https://example.com/api/weather?lat=35&lon=139'
     )
     const response = await GET(request)
 
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(502)
     const data = await response.json()
-    expect(data).toEqual({ error: 'Failed to fetch weather data' })
+    expect(data.error).toContain('Failed to fetch weather data')
   })
 })

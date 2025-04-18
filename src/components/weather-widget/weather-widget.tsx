@@ -71,6 +71,22 @@ function getWeatherIcon(condition: string) {
   }
 }
 
+function getWeatherBackgroundClass(condition: string): string {
+  switch (condition) {
+    case 'Clear':
+    case 'Thunderstorm':
+      return 'bg-accent'
+    case 'Rain':
+    case 'Drizzle':
+      return 'bg-secondary'
+    case 'Snow':
+      return 'bg-primary'
+    case 'Clouds':
+    default:
+      return 'bg-muted'
+  }
+}
+
 export function WeatherWidget() {
   const { isPending, error, data } = useWeatherInfo()
   const [isVisible, setIsVisible] = useState(false)
@@ -104,6 +120,7 @@ export function WeatherWidget() {
       onMouseLeave={() => setIsHovering(false)}
       className={cn(
         'relative overflow-hidden rounded-lg p-5 shadow-lg transition-all duration-500 ease-in-out',
+        getWeatherBackgroundClass(data.condition),
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
         isHovering ? 'scale-[1.01] shadow-xl' : 'scale-100'
       )}
