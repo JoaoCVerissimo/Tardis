@@ -1,6 +1,6 @@
 import { RepositoryStats } from '@/components/ui/repository-stats'
 import * as hooks from '@/hooks/api/use-repository-info'
-import { render } from '@/test-utils'
+import { render } from '@/tests/test-utils'
 
 jest.mock('@/hooks/api/use-repository-info')
 const mockUseRepositoryInfo = hooks.useRepositoryInfo as jest.Mock

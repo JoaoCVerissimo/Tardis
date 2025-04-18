@@ -1,5 +1,5 @@
 import Navbar from '@/components/ui/Navbar'
-import { render } from '@/test-utils'
+import { render } from '@/tests/test-utils'
 
 describe('Navbar', () => {
   it('renders logo with home link', () => {

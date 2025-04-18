@@ -1,5 +1,5 @@
 import Home from '@/app/(main)/page'
-import { render } from '@/test-utils'
+import { render } from '@/tests/test-utils'
 
 describe('Home page', () => {
   it('renders welcome heading', () => {
