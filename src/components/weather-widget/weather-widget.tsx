@@ -2,90 +2,14 @@
 
 import { useWeatherInfo } from '@/hooks/api/use-weather-info'
 import { cn } from '@/lib/utils'
-import {
-  AlertTriangle,
-  Cloud,
-  CloudLightning,
-  CloudRain,
-  CloudSnow,
-  Droplets,
-  Loader2,
-  Sun,
-  Sunset,
-  Wind,
-} from 'lucide-react'
+import { AlertTriangle, Droplets, Loader2, Sunset, Wind } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-
-const weatherMessages = {
-  Clear: [
-    "Perfect weather for a TARDIS landing! Don't forget your sonic screwdriver!",
-    'Clear skies ahead - even better than the Eye of Harmony!',
-  ],
-  Clouds: [
-    'Cloudy with a chance of TARDISes materializing!',
-    'Visibility might be low, watch out for Weeping Angels!',
-  ],
-  Rain: [
-    "Rain! I love rain - it's like Earth's natural cooling system.",
-    'A bit wet for time travel, might need an umbrella!',
-  ],
-  Snow: [
-    'Snow! Just like that time we visited the Ood Sphere!',
-    "Bundle up, it's colder than a Cyberman's handshake!",
-  ],
-  Thunderstorm: [
-    'Lightning! Almost as electric as the TARDIS console!',
-    'Stay inside, unless you have a force field generator!',
-  ],
-  default: [
-    "Weather's acting strange - could be temporal interference!",
-    'Hmm, reminds me of that one planet... or was it a space station?',
-  ],
-}
-
-function getRandomMessage(condition: string): string {
-  const messages =
-    weatherMessages[condition as keyof typeof weatherMessages] ||
-    weatherMessages.default
-  return messages[Math.floor(Math.random() * messages.length)]
-}
-
-function getWeatherIcon(condition: string) {
-  switch (condition) {
-    case 'Clear':
-      return <Sun className="text-primary size-6 animate-pulse" />
-    case 'Clouds':
-      return (
-        <Cloud className="animate-bounce-slow text-muted-foreground size-6" />
-      )
-    case 'Rain':
-    case 'Drizzle':
-      return <CloudRain className="animate-drizzle text-primary size-6" />
-    case 'Snow':
-      return <CloudSnow className="animate-spin-slow text-primary size-6" />
-    case 'Thunderstorm':
-      return <CloudLightning className="animate-lightning text-accent size-6" />
-    default:
-      return <Cloud className="text-muted-foreground size-6" />
-  }
-}
-
-function getWeatherBackgroundClass(condition: string): string {
-  switch (condition) {
-    case 'Clear':
-    case 'Thunderstorm':
-      return 'bg-accent'
-    case 'Rain':
-    case 'Drizzle':
-      return 'bg-secondary'
-    case 'Snow':
-      return 'bg-primary'
-    case 'Clouds':
-    default:
-      return 'bg-muted'
-  }
-}
+import {
+  getRandomMessage,
+  getWeatherBackgroundClass,
+  getWeatherIcon,
+} from './utils'
 
 export function WeatherWidget() {
   const { isPending, error, data } = useWeatherInfo()
@@ -199,7 +123,7 @@ export function WeatherWidget() {
           </div>
           <div className="flex items-center gap-2">
             <div className="transform transition-all hover:scale-110">
-              {getWeatherIcon(data.condition)}
+              {getWeatherIcon(data.condition, 'size-6')}
             </div>
             <div className="text-lg font-medium">
               {data.temperature}°C - {data.description}
