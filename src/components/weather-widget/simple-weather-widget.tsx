@@ -46,6 +46,7 @@ export function SimpleWeatherWidget() {
         <Tooltip>
           <TooltipTrigger asChild>
             <div
+              data-testid="error-widget"
               className={cn(
                 'bg-error text-error-foreground fixed right-4 bottom-4 z-50 flex cursor-help items-center gap-2 rounded-full px-3 py-2 text-xs shadow-lg transition-opacity duration-500',
                 isVisible ? 'opacity-100' : 'opacity-0'
@@ -55,7 +56,12 @@ export function SimpleWeatherWidget() {
               <span>Error</span>
             </div>
           </TooltipTrigger>
-          <TooltipContent side="top" align="end" role="tooltip">
+          <TooltipContent
+            side="top"
+            align="end"
+            role="tooltip"
+            data-testid="error-tooltip"
+          >
             <p>Failed to analyze weather patterns</p>
           </TooltipContent>
         </Tooltip>
@@ -68,6 +74,7 @@ export function SimpleWeatherWidget() {
       <Tooltip>
         <TooltipTrigger asChild>
           <div
+            data-testid="weather-widget"
             className={cn(
               'fixed right-4 bottom-4 z-50 flex cursor-pointer items-center gap-2 rounded-full px-3 py-2 text-xs shadow-lg transition-all duration-500',
               getWeatherBackgroundClass(data.condition),
@@ -85,6 +92,7 @@ export function SimpleWeatherWidget() {
           align="end"
           className="max-w-xs text-sm"
           role="tooltip"
+          data-testid="weather-tooltip"
         >
           <div className="space-y-2 p-2">
             <div className="flex items-center gap-1 font-semibold">
