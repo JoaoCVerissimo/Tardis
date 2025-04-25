@@ -1,5 +1,4 @@
-import QueryProvider from '@/app/_providers/QueryProvider'
-import { ThemeProvider } from '@/app/_providers/ThemeProvider'
+import { ClientProviders } from '@/app/_providers/ClientProviders' // Import ClientProviders
 import {
   FALLBACK_LOCATION,
   Theme,
@@ -65,9 +64,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <ThemeProvider initialTheme={initialTheme}>{children}</ThemeProvider>
-        </QueryProvider>
+        <ClientProviders initialTheme={initialTheme}>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   )

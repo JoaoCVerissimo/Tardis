@@ -349,10 +349,44 @@ Best practices:
 - Use `useState` for component-level state
 - Use `useReducer` for complex state logic
 
-### Global State
+### Global State / UI State
 
-- Use React Context for theme/auth/global UI state
-- Keep state minimal and focused
+- **Theme:** Managed by `ThemeProvider` (see above).
+- **Sidebar State:** Managed by `SidebarProvider` (`src/components/ui/sidebar.tsx`). This context provider wraps the authenticated layout (`src/app/(authenticated)/layout.tsx`) and manages the collapsed/expanded state of the `AppSidebar`. It uses `useIsMobile` to default to a collapsed state on mobile devices and persists the state using cookies. The `useSidebar` hook provides access to the state and toggle function.
+- **Authentication:** Primarily managed server-side by Auth.js and accessed via `auth()` in Server Components or fetched client-side where necessary (see Authentication State section).
+
+### Authentication State (Auth.js v5)
+
+- **Session Fetching:** The user session is preferably fetched server-side within layouts or pages using the `auth()` function exported from `@/app/api/auth/[...nextauth]/route`.
+
+  ```typescript
+  // Example in src/app/(main)/layout.tsx
+  import { auth } from '@/app/api/auth/[...nextauth]/route' // Use correct path
+
+  export default async function MainLayout({ children }) {
+    const session = await auth()
+    // Pass session down to client components if needed
+    return <Navbar session={session} />
+  }
+  ```
+
+- **Client Component Access:** Client components needing session data should use the `useSession` hook from `next-auth/react`. This requires wrapping the application in a `<SessionProvider>` (typically done in a client-side providers component like `src/app/_providers/ClientProviders.tsx` which is then used in the root layout). The hook provides both the session data and the authentication status (`loading`, `authenticated`, `unauthenticated`). Example usage in `src/app/(authenticated)/layout.tsx`.
+- **Sign-in/Sign-out:** Authentication actions (sign-in, sign-out) are handled using Server Actions within simple form components, as seen in `src/components/ui/Navbar.tsx`. This avoids the need for client-side JavaScript for these core actions.
+
+  ```typescript
+  // Example SignOutButton in Navbar.tsx
+  import { signOutAction } from '@/actions/auth'
+
+  function SignOutButton() {
+    return (
+      <form action={signOutAction}>
+        <Button type="submit">Sign Out</Button>
+      </form>
+    )
+  }
+  ```
+
+- **Route Protection:** Middleware (`src/middleware.ts`) intercepts requests and uses the `auth` helper to check the session status, redirecting unauthenticated users from protected routes (currently `/dashboard` and `/accounting`). It must be located in `src/` if the `app` directory is also in `src/`.
 
 ## Custom Hooks
 

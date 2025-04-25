@@ -57,6 +57,24 @@
 - Error handling and retries
 - Configured with 5-minute stale time by default
 
+## Authentication
+
+### Auth.js (NextAuth.js v5)
+
+- Version: 5.0.0-beta.26
+- Authentication framework for Next.js
+- Handles OAuth (Google), email, credentials, etc.
+- Session management
+- Middleware for route protection
+- Configuration Files:
+  - `middleware.ts`: Uses `auth` helper to protect routes based on session status.
+  - `src/app/api/auth/[...nextauth]/route.ts`: The API route handler required by Auth.js. Main export file consolidating Auth.js functions (`auth`, `signIn`, `signOut`). Defines providers (e.g., Google) and potentially callbacks/pages.
+- **Required Environment Variables** (in `.env.local`):
+  - `AUTH_SECRET`: A secret key used to encrypt JWTs and session data. Generate using `openssl rand -base64 32` or visit `https://generate-secret.vercel.app/32`.
+  - `GOOGLE_CLIENT_ID`: Your Google OAuth application's Client ID. Obtain from Google Cloud Console.
+  - `GOOGLE_CLIENT_SECRET`: Your Google OAuth application's Client Secret. Obtain from Google Cloud Console.
+  - Ensure `http://localhost:3000/api/auth/callback/google` (and production equivalent) is added as an Authorized redirect URI in Google Cloud Console.
+
 ## Testing
 
 ### Jest
