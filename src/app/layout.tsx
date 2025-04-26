@@ -8,6 +8,7 @@ import {
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import './shadcn-compat.css'
 
 const FALLBACK_LATITUDE = FALLBACK_LOCATION.latitude
 const FALLBACK_LONGITUDE = FALLBACK_LOCATION.longitude

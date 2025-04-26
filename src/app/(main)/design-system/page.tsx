@@ -26,7 +26,7 @@ export default function DesignSystem() {
         <p className="text-muted-foreground">
           Test the different weather-based themes. Note: Manually setting a
           theme here will override the automatic weather-based theme until the
-          next page load or weather update (if override reset logic is added).
+          next page load or weather update.
         </p>
         <div className="flex flex-wrap gap-2">
           {themes.map((themeName) => (
@@ -63,7 +63,7 @@ export default function DesignSystem() {
 
           <p>
             Regular paragraph text. The quick brown fox jumps over the lazy dog.
-            This demonstrates our base font size and line height.
+            This demonstrates the base font size and line height.
           </p>
 
           <p className="text-lg">

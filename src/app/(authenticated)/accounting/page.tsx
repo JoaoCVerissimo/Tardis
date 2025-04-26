@@ -1,7 +1,15 @@
 'use client'
 
+import { AccountingAreaChart } from '@/components/charts/AccountingAreaChart'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 import { useState } from 'react'
 
 interface CalculationResult {
@@ -18,8 +26,14 @@ export default function AccountingPage() {
     'monthly' | 'weekly'
   >('monthly')
   const [annualRate, setAnnualRate] = useState<number>(7) // Percentage
+  // Add state for compounding frequency
+  const [compoundingFrequency, setCompoundingFrequency] = useState<
+    'annually' | 'semi-annually' | 'quarterly' | 'monthly' | 'weekly' | 'daily'
+  >('annually')
+  const [numberOfYears, setNumberOfYears] = useState<number>(40)
   const [results, setResults] = useState<CalculationResult[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const calculateCompoundInterest = () => {
     setError(null) // Clear previous errors
@@ -28,9 +42,35 @@ export default function AccountingPage() {
     let totalInvested = initialInvestment
     const rateDecimal = annualRate / 100
 
-    const periodsPerYear = depositFrequency === 'monthly' ? 12 : 52
-    const ratePerPeriod = rateDecimal / periodsPerYear
+    // Determine deposit periods and amount
+    const depositPeriodsPerYear = depositFrequency === 'monthly' ? 12 : 52
     const depositPerPeriod = depositAmount
+
+    // Determine compounding periods based on selection
+    let compoundingPeriodsPerYear: number
+    switch (compoundingFrequency) {
+      case 'annually':
+        compoundingPeriodsPerYear = 1
+        break
+      case 'semi-annually':
+        compoundingPeriodsPerYear = 2
+        break
+      case 'quarterly':
+        compoundingPeriodsPerYear = 4
+        break
+      case 'monthly':
+        compoundingPeriodsPerYear = 12
+        break
+      case 'weekly':
+        compoundingPeriodsPerYear = 52
+        break
+      case 'daily':
+        compoundingPeriodsPerYear = 365 // Assuming 365 days
+        break
+      default:
+        compoundingPeriodsPerYear = 1 // Default to annually
+    }
+    const ratePerCompoundingPeriod = rateDecimal / compoundingPeriodsPerYear
 
     if (
       initialInvestment < 0 ||
@@ -38,34 +78,57 @@ export default function AccountingPage() {
       annualRate < 0 ||
       isNaN(initialInvestment) ||
       isNaN(depositAmount) ||
-      isNaN(annualRate)
+      isNaN(annualRate) ||
+      numberOfYears <= 0 ||
+      isNaN(numberOfYears)
     ) {
-      setError('Please enter valid positive numbers for amounts and rate.')
+      setError(
+        'Please enter valid positive numbers for amounts, rate, and years.'
+      )
       setResults([])
       return
     }
 
-    for (let year = 1; year <= 40; year++) {
-      // let yearlyInterestEarned = 0 // Removed unused variable
+    // Use numberOfYears from state
+    for (let year = 1; year <= numberOfYears; year++) {
       let yearlyDeposits = 0
+      // const balanceBeforeInterest = currentBalance // Removed unused variable
 
-      for (let period = 0; period < periodsPerYear; period++) {
-        // Add deposit at the start of the period
+      // --- Handle Deposits for the year ---
+      // This loop adds deposits based on depositFrequency
+      // We assume deposits happen *before* interest is compounded within the year
+      for (
+        let depositPeriod = 0;
+        depositPeriod < depositPeriodsPerYear;
+        depositPeriod++
+      ) {
         currentBalance += depositPerPeriod
         yearlyDeposits += depositPerPeriod
-
-        // Calculate interest for the period
-        const interestThisPeriod = currentBalance * ratePerPeriod
-        currentBalance += interestThisPeriod
-        // yearlyInterestEarned += interestThisPeriod // Removed unused variable increment
       }
-
       totalInvested += yearlyDeposits
+
+      // --- Handle Interest Compounding for the year ---
+      // Now apply interest based on compoundingFrequency
+      // Start with the balance after deposits for the year
+      let balanceToCompound = currentBalance
+      for (
+        let compoundPeriod = 0;
+        compoundPeriod < compoundingPeriodsPerYear;
+        compoundPeriod++
+      ) {
+        const interestThisCompoundingPeriod =
+          balanceToCompound * ratePerCompoundingPeriod
+        balanceToCompound += interestThisCompoundingPeriod
+      }
+      // Update the main currentBalance after all compounding for the year is done
+      currentBalance = balanceToCompound
+
+      const cumulativeInterest = currentBalance - totalInvested
 
       calculatedResults.push({
         year: year,
         totalInvested: parseFloat(totalInvested.toFixed(2)),
-        interestEarned: parseFloat((currentBalance - totalInvested).toFixed(2)),
+        interestEarned: parseFloat(cumulativeInterest.toFixed(2)),
         totalBalance: parseFloat(currentBalance.toFixed(2)),
       })
     }
@@ -75,7 +138,23 @@ export default function AccountingPage() {
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault()
+    setCurrentPage(1) // Reset to first page on new calculation
     calculateCompoundInterest()
+  }
+
+  // Pagination logic
+  const itemsPerPage = 10
+  const totalPages = Math.ceil(results.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedResults = results.slice(startIndex, endIndex)
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1))
+  }
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
   }
 
   return (
@@ -127,6 +206,40 @@ export default function AccountingPage() {
             />
           </div>
 
+          {/* Compounding Frequency */}
+          <div>
+            <label
+              htmlFor="compoundingFrequency"
+              className="text-foreground mb-2 block text-sm font-medium"
+            >
+              Compounding Frequency
+            </label>
+            <select
+              id="compoundingFrequency"
+              value={compoundingFrequency}
+              onChange={(e) =>
+                setCompoundingFrequency(
+                  e.target.value as
+                    | 'annually'
+                    | 'semi-annually'
+                    | 'quarterly'
+                    | 'monthly'
+                    | 'weekly'
+                    | 'daily'
+                )
+              }
+              required
+              className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="annually">Annually</option>
+              <option value="semi-annually">Semi-Annually</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="monthly">Monthly</option>
+              <option value="weekly">Weekly</option>
+              <option value="daily">Daily</option>
+            </select>
+          </div>
+
           {/* Deposit Amount */}
           <div>
             <label
@@ -168,6 +281,26 @@ export default function AccountingPage() {
               <option value="weekly">Weekly</option>
             </select>
           </div>
+
+          {/* Number of Years */}
+          <div>
+            <label
+              htmlFor="numberOfYears"
+              className="text-foreground mb-2 block text-sm font-medium"
+            >
+              Number of Years
+            </label>
+            <Input
+              id="numberOfYears"
+              type="number"
+              value={numberOfYears}
+              onChange={(e) => setNumberOfYears(parseInt(e.target.value, 10))}
+              min="1"
+              step="1"
+              required
+              className="w-full"
+            />
+          </div>
         </div>
 
         {error && <p className="text-destructive text-sm">{error}</p>}
@@ -199,26 +332,87 @@ export default function AccountingPage() {
                 </tr>
               </thead>
               <tbody className="divide-border bg-background divide-y">
-                {results.map((result) => (
-                  <tr key={result.year}>
-                    <td className="px-4 py-2 text-sm">{result.year}</td>
-                    <td className="px-4 py-2 text-sm">
-                      {result.totalInvested.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 text-sm">
-                      {result.interestEarned.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 text-sm font-medium">
-                      {result.totalBalance.toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
+                {/* Use paginatedResults for the table */}
+                {paginatedResults.map((result, index) => {
+                  // Calculate the index in the full results array
+                  const fullIndex = startIndex + index
+                  // Get the previous year's cumulative interest (if available)
+                  const previousCumulativeInterest =
+                    fullIndex > 0 ? results[fullIndex - 1].interestEarned : 0
+                  // Calculate the interest earned *this* year
+                  const annualInterest =
+                    result.interestEarned - previousCumulativeInterest
+
+                  return (
+                    <tr key={result.year}>
+                      <td className="px-4 py-2 text-sm">{result.year}</td>
+                      <td className="px-4 py-2 text-sm">
+                        {result.totalInvested.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 text-sm">
+                        {/* Display cumulative interest */}
+                        {result.interestEarned.toLocaleString()}
+                        {/* Display annual interest in parentheses */}
+                        <span className="text-muted-foreground ml-1 text-xs">
+                          (+{annualInterest.toLocaleString()})
+                        </span>
+                      </td>
+                      <td className="px-4 py-2 text-sm font-medium">
+                        {result.totalBalance.toLocaleString()}
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
-          {/* TODO: Implement graph here */}
-          <div className="bg-muted text-muted-foreground mt-4 rounded-md border p-4 text-center">
-            Graph placeholder - // TODO: Implement graph here
+
+          {/* Add Pagination Controls */}
+          {totalPages > 1 && (
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handlePreviousPage()
+                    }}
+                    aria-disabled={currentPage === 1}
+                    className={
+                      currentPage === 1
+                        ? 'text-muted-foreground pointer-events-none opacity-50'
+                        : undefined
+                    }
+                  />
+                </PaginationItem>
+                {/* Simple page number display - can be enhanced later */}
+                <PaginationItem>
+                  <span className="text-muted-foreground px-4 text-sm">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleNextPage()
+                    }}
+                    aria-disabled={currentPage === totalPages}
+                    className={
+                      currentPage === totalPages
+                        ? 'text-muted-foreground pointer-events-none opacity-50'
+                        : undefined
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
+
+          <div className="mt-4">
+            <AccountingAreaChart data={results} />
           </div>
         </div>
       )}
